@@ -1,0 +1,32 @@
+{
+  "name": "api-node-template",
+  "version": "1.0.0",
+  "description": "Node.js application template for API's",
+  "main": "index.js",
+  "scripts": {
+    "start:dev": "tsx watch src/server.ts",
+    "start": "node build/server.js",
+    "build": "tsup src --out-dir build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nathanfmachado/api-node-template.git"
+  },
+  "keywords": [],
+  "author": "Nathan Fabiano Machado",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nathanfmachado/api-node-template/issues"
+  },
+  "homepage": "https://github.com/nathanfmachado/api-node-template#readme",
+  "devDependencies": {
+    "@types/node": "20.10.3",
+    "tsup": "8.0.1",
+    "tsx": "4.6.2",
+    "typescript": "5.3.2"
+  },
+  "dependencies": {
+    "dotenv": "16.3.1",
+    "fastify": "4.24.3"
+  }
+}
