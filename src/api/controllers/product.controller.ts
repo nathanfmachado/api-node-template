@@ -1,3 +1,4 @@
+import { ProductPrismaRepository } from '@/data/repositories/product.prisma-repository';
 import { CreateProductUseCase } from '@/domain/use-cases/create-product.use-case';
 import { Request, Response } from 'express';
 import { z } from 'zod';
@@ -14,7 +15,8 @@ export class ProductController {
     });
     const { name, price, description } = createProductInputValidator.parse(request.body);
 
-    const createProductUseCase = new CreateProductUseCase();
+    const productPrismaRepository = new ProductPrismaRepository();
+    const createProductUseCase = new CreateProductUseCase(productPrismaRepository);
     try {
       const product = await createProductUseCase.exec({ name, price, description });
       return response.status(201).send(product);
