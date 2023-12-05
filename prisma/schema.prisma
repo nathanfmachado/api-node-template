@@ -16,8 +16,8 @@ model Product {
   description String?
   price       Float
 
-  category    Category @relation(fields: [category_id], references: [id])
-  category_id String
+  category    Category? @relation(fields: [category_id], references: [id])
+  category_id String?
 
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
