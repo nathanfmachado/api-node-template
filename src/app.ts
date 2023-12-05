@@ -1,5 +1,6 @@
-import fastify from 'fastify';
+import express from 'express';
+import { route } from '@/api/routes';
 
-export const app = fastify({
-  logger: true,
-});
+export const app = express();
+app.use(express.json());
+app.use(route);
