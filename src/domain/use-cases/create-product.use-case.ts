@@ -1,18 +1,17 @@
 import { UseCase } from '@/domain/use-case';
 import { CreateProductInputModel, ProductModel } from '@/domain/models';
-import { prisma } from '@/data';
+import { ProductPrismaRepository } from '@/data/repositories/product.prisma-repository';
 
 
 export class CreateProductUseCase implements UseCase<CreateProductInputModel, ProductModel> {
   constructor() {}
 
   async exec({ name, price, description }: CreateProductInputModel): Promise<ProductModel> {
-    const product = await prisma.product.create({
-      data: {
-        name,
-        price,
-        description
-      },
+    const productPrismaRepository = new ProductPrismaRepository();
+    const product = await productPrismaRepository.create({
+      name,
+      price,
+      description,
     });
     
     return {
