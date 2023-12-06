@@ -1,4 +1,4 @@
-import { ProductPrismaRepository } from '@/data/repositories/product.prisma-repository';
+import { ProductPrismaRepository } from '@/data/repositories/prisma/product.prisma-repository';
 import { CreateProductUseCase } from '@/domain/use-cases/create-product.use-case';
 import { Request, Response } from 'express';
 import { z } from 'zod';

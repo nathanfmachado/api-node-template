@@ -7,6 +7,12 @@ export class CreateProductUseCase implements UseCase<CreateProductInputModel, Pr
   constructor(private productRepository: ProductRepository) {}
 
   async exec({ name, price, description }: CreateProductInputModel): Promise<ProductModel> {
+    const productAlreadyExists = await this.productRepository.findByName(name);
+
+    if (productAlreadyExists) {
+      throw new Error('Product already exists');
+    }
+
     const product = await this.productRepository.create({
       name,
       price,

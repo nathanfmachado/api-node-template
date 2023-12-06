@@ -1,9 +1,18 @@
 import { prisma } from '@/data/prisma';
 import { Prisma } from '@prisma/client';
-import { ProductRepository } from './product.repository';
+import { ProductRepository } from '@/data/repositories/product.repository';
 
 
 export class ProductPrismaRepository implements ProductRepository {
+  async findByName(name: string) {
+    const product = await prisma.product.findFirst({
+      where: {
+        name,
+      }
+    });
+    return product;
+  }
+
   async create({ name, price, description }: Prisma.ProductCreateInput) {
     const product = await prisma.product.create({
       data: {
