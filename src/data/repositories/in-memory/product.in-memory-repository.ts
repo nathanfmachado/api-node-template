@@ -1,10 +1,15 @@
 import { Prisma, Product } from '@prisma/client';
-import { PrismaProductUpdateInput, ProductRepository } from '@/data/repositories/product.repository';
+import { PaginationInput, PrismaProductUpdateInput, ProductRepository } from '@/data/repositories/product.repository';
 import { NotFoundError } from '@/core/errors';
 import { isUndefined } from 'lodash';
 
 export class ProductInMemoryRepository implements ProductRepository { 
   public products: Product[] = [];
+
+  async findMany({ limit, offset }: PaginationInput) {
+    const products = this.products.slice(offset, offset + limit);
+    return products;
+  }
 
   async findById(id: string) {
     const product = this.products.find(product => product.id === id);
