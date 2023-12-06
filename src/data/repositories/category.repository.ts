@@ -4,12 +4,12 @@ import { PaginationInput } from './repository-models';
 export interface CategoryUpdateInput {
   id: string;
   name?: string;
-  tax?: number;
+  tax?: number | null;
 }
 
 export interface CategoryCreateInput {
-  name: string
-  tax?: number | null
+  name: string;
+  tax?: number | null;
 }
 
 export interface CategoryRepository {
