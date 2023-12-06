@@ -1,6 +1,6 @@
 import { prisma } from '@/data/prisma';
 import { Prisma } from '@prisma/client';
-import { PaginationInput, PrismaProductUpdateInput, ProductRepository } from '@/data/repositories/product.repository';
+import { PaginationInput, PrismaProductUpdateInput, ProductRepository } from '@/data/repositories';
 import { NotFoundError } from '@/core/errors';
 import { isUndefined } from 'lodash';
 

@@ -1,5 +1,5 @@
 import { Prisma, Product } from '@prisma/client';
-import { PaginationInput, PrismaProductUpdateInput, ProductRepository } from '@/data/repositories/product.repository';
+import { PaginationInput, PrismaProductUpdateInput, ProductRepository } from '@/data/repositories';
 import { NotFoundError } from '@/core/errors';
 import { isUndefined } from 'lodash';
 
@@ -8,6 +8,7 @@ export class ProductInMemoryRepository implements ProductRepository {
 
   async findMany({ limit, offset }: PaginationInput) {
     const products = this.products.slice(offset, offset + limit);
+    // TODO: include category
     return products;
   }
 
