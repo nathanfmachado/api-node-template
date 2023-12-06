@@ -1,3 +1,4 @@
+import { handleError } from '@/core/errors';
 import { makeCreateProductUseCase } from '@/domain/factories/make-create-product-use-case';
 import { makeGetProductUseCase } from '@/domain/factories/make-get-product-use-case';
 import { Request, Response } from 'express';
@@ -20,7 +21,7 @@ export class ProductController {
       const product = await createProductUseCase.exec({ name, price, description });
       return response.status(201).send(product);
     } catch (error) {
-      return response.status(500).send(error);
+      handleError(error, response);
     }
   }
 
@@ -35,7 +36,7 @@ export class ProductController {
       const product = await getProductByIdUseCase.exec(id);
       return response.status(200).send(product);
     } catch (error) {
-      return response.status(500).send(error);
+      handleError(error, response);
     }
   }
 }

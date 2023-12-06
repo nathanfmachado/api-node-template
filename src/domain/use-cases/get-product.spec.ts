@@ -1,6 +1,7 @@
 import { describe, expect, it, beforeEach } from 'vitest';
 import { GetProductUseCase } from './get-product.use-case';
 import { ProductInMemoryRepository } from '@/data/repositories/in-memory/product.in-memory-repository';
+import { NotFoundError } from '@/core/errors';
 
 
 describe('Get Product Use Case', () => {
@@ -33,7 +34,7 @@ describe('Get Product Use Case', () => {
     };
     await productRepository.create(productInput);
 
-    await expect(getProductUseCase.exec('non-existing-id')).rejects.toThrow('Product not found');
+    await expect(getProductUseCase.exec('non-existing-id')).rejects.toBeInstanceOf(NotFoundError);
   });
 
 });

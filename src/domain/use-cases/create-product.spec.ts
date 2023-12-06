@@ -1,9 +1,10 @@
 import { describe, expect, it, beforeEach } from 'vitest';
 import { CreateProductUseCase } from './create-product.use-case';
 import { makeCreateProductUseCase } from '../factories/make-create-product-use-case';
+import { AlreadyExistsError } from '@/core/errors';
 
 
-describe('Create Product', () => {
+describe('Create Product Use Case', () => {
   let createProductUseCase: CreateProductUseCase;
 
   beforeEach(() => {
@@ -29,7 +30,7 @@ describe('Create Product', () => {
     };
     await createProductUseCase.exec(productInput);
 
-    await expect(createProductUseCase.exec(productInput)).rejects.toThrow('Product already exists');
+    await expect(createProductUseCase.exec(productInput)).rejects.toBeInstanceOf(AlreadyExistsError);
   });
 
 });

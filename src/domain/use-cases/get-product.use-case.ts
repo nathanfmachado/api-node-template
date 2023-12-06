@@ -1,6 +1,7 @@
 import { UseCase } from '@/domain/use-case';
 import { ProductModel } from '@/domain/models';
 import { ProductRepository } from '@/data/repositories/product.repository';
+import { NotFoundError } from '@/core/errors';
 
 
 export class GetProductUseCase implements UseCase<string, ProductModel> {
@@ -10,7 +11,7 @@ export class GetProductUseCase implements UseCase<string, ProductModel> {
     const product = await this.productRepository.findById(id);
     
     if (!product) {
-      throw new Error('Product not found');
+      throw new NotFoundError();
     }
     
     return {
