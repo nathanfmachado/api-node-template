@@ -8,5 +8,12 @@ export interface ProductModel {
 export interface CreateProductInputModel {
   name: string;
   price: number;
-  description?: string;
+  description?: string | null;
+}
+
+export interface UpdateProductInputModel {
+  id: string;
+  name?: string;
+  price?: number;
+  description?: string | null;
 }

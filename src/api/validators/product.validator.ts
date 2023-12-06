@@ -8,8 +8,7 @@ export const createProductValidator = z.object({
 });
 
 export const updateProductValidator = z.object({
-  id: z.string().uuid(),
   name: z.string().optional(),
   price: z.number().positive().optional(),
-  description: z.string().optional(),
+  description: z.string().nullable().optional(),
 });

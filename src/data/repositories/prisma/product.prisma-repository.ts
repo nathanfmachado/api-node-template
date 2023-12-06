@@ -1,7 +1,8 @@
 import { prisma } from '@/data/prisma';
 import { Prisma } from '@prisma/client';
-import { ProductRepository } from '@/data/repositories/product.repository';
-
+import { PrismaProductUpdateInput, ProductRepository } from '@/data/repositories/product.repository';
+import { NotFoundError } from '@/core/errors';
+import { isUndefined } from 'lodash';
 
 export class ProductPrismaRepository implements ProductRepository {
 
@@ -29,6 +30,28 @@ export class ProductPrismaRepository implements ProductRepository {
         name,
         price,
         description,
+      }
+    });
+    return product;
+  }
+
+  async update({ id, name, price, description }: PrismaProductUpdateInput) {
+    const productFound = await prisma.product.findFirst({
+      where: {
+        id,
+      }
+    });
+    if (!productFound) {
+      throw new NotFoundError();
+    }
+    const product = await prisma.product.update({
+      where: {
+        id,
+      },
+      data: {
+        name: isUndefined(name) ? productFound.name : name,
+        price: isUndefined(price) ? productFound.price : price,
+        description: isUndefined(description) ? productFound.description : description,
       }
     });
     return product;
