@@ -1,15 +1,13 @@
 import { describe, expect, it, beforeEach } from 'vitest';
 import { CreateProductUseCase } from './create-product.use-case';
-import { ProductInMemoryRepository } from '@/data/repositories/in-memory/product.in-memory-repository';
+import { makeCreateProductUseCase } from '../factories/make-create-product-use-case';
 
 
 describe('Create Product', () => {
-  let productRepository: ProductInMemoryRepository;
   let createProductUseCase: CreateProductUseCase;
 
   beforeEach(() => {
-    productRepository = new ProductInMemoryRepository();
-    createProductUseCase = new CreateProductUseCase(productRepository);
+    createProductUseCase = makeCreateProductUseCase(true);
   });
 
   it('should create a product', async () => {
