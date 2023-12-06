@@ -1,10 +1,10 @@
-import { Category } from '@prisma/client';
 import { PaginationInput, CategoryRepository, CategoryCreateInput, CategoryUpdateInput  } from '@/data/repositories';
 import { NotFoundError } from '@/core/errors';
 import { isUndefined } from 'lodash';
+import { CategoryEntity } from '@/data/entities';
 
 export class CategoryInMemoryRepository implements CategoryRepository { 
-  public categories: Category[] = [];
+  public categories: CategoryEntity[] = [];
 
   async findMany({ limit, offset }: PaginationInput) {
     const categories = this.categories.slice(offset, offset + limit);
@@ -17,12 +17,12 @@ export class CategoryInMemoryRepository implements CategoryRepository {
   }
 
   async create({ name, tax }: CategoryCreateInput) {
-    const category = {
+    const category: CategoryEntity = {
       id: String(this.categories.length + 1),
       name,
       tax: tax ?? null,
-      created_at: new Date(),
-      updated_at: new Date(),
+      createdAt: new Date(),
+      updatedAt: new Date(),
     };
     this.categories.push(category);
     return category;

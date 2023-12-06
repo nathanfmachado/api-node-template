@@ -103,7 +103,7 @@ export class ProductPrismaRepository implements ProductRepository {
       name: product.name,
       price: product.price,
       description: product.description,
-      categoryId: product.categoryId,
+      categoryId: product.category_id,
       category: product.category,
       createdAt: product.created_at,
       updatedAt: product.updated_at,

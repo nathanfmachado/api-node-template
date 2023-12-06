@@ -1,5 +1,5 @@
-import { Category } from '@prisma/client';
 import { PaginationInput } from './repository-models';
+import { CategoryEntity } from '@/data/entities';
 
 export interface CategoryUpdateInput {
   id: string;
@@ -13,9 +13,9 @@ export interface CategoryCreateInput {
 }
 
 export interface CategoryRepository {
-  findById(id: string): Promise<Category | null>;
-  findMany(pagination: PaginationInput): Promise<Category[]>;
-  create(data: CategoryCreateInput): Promise<Category>;
-  update(data: CategoryUpdateInput): Promise<Category>;
+  findById(id: string): Promise<CategoryEntity | null>;
+  findMany(pagination: PaginationInput): Promise<CategoryEntity[]>;
+  create(data: CategoryCreateInput): Promise<CategoryEntity>;
+  update(data: CategoryUpdateInput): Promise<CategoryEntity>;
   delete(id: string): Promise<void>;
 }

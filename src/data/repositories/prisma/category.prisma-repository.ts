@@ -2,6 +2,7 @@ import { prisma } from '@/data/prisma';
 import { NotFoundError } from '@/core/errors';
 import { isUndefined } from 'lodash';
 import { CategoryCreateInput, CategoryRepository, CategoryUpdateInput, PaginationInput } from '@/data/repositories';
+import { CategoryEntity } from '@/data/entities';
 
 export class CategoryPrismaRepository implements CategoryRepository {
 
@@ -10,7 +11,7 @@ export class CategoryPrismaRepository implements CategoryRepository {
       take: limit,
       skip: offset,
     });
-    return categories;
+    return categories.map(this.mapCategoryToCategoryEntity);
   }
 
   async findById(id: string) {
@@ -19,7 +20,7 @@ export class CategoryPrismaRepository implements CategoryRepository {
         id,
       }
     });
-    return category;
+    return category ? this.mapCategoryToCategoryEntity(category) : null;
   }
 
   async create({ name, tax }: CategoryCreateInput) {
@@ -29,7 +30,7 @@ export class CategoryPrismaRepository implements CategoryRepository {
         tax,
       }
     });
-    return category;
+    return this.mapCategoryToCategoryEntity(category);
   }
 
   async update({ id, name, tax }: CategoryUpdateInput) {
@@ -50,7 +51,7 @@ export class CategoryPrismaRepository implements CategoryRepository {
         tax: isUndefined(tax) ? categoryFound.tax : tax,
       }
     });
-    return category;
+    return this.mapCategoryToCategoryEntity(category);
   }
 
   async delete(id: string) {
@@ -59,5 +60,15 @@ export class CategoryPrismaRepository implements CategoryRepository {
         id,
       }
     });
+  }
+
+  private mapCategoryToCategoryEntity(category: any): CategoryEntity {
+    return {
+      id: category.id,
+      name: category.name,
+      tax: category.tax,
+      createdAt: category.created_at,
+      updatedAt: category.updated_at,
+    };
   }
 }
