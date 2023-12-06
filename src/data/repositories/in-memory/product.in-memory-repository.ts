@@ -1,5 +1,7 @@
 import { Prisma, Product } from '@prisma/client';
-import { ProductRepository } from '@/data/repositories/product.repository';
+import { PrismaProductUpdateInput, ProductRepository } from '@/data/repositories/product.repository';
+import { NotFoundError } from '@/core/errors';
+import { isUndefined } from 'lodash';
 
 export class ProductInMemoryRepository implements ProductRepository { 
   public products: Product[] = [];
@@ -26,5 +28,21 @@ export class ProductInMemoryRepository implements ProductRepository {
     };
     this.products.push(product);
     return product;
+  }
+
+  async update({ id, name, price, description }: PrismaProductUpdateInput) {
+    const product = this.products.find(product => product.id === id);
+    if (!product) {
+      throw new NotFoundError();
+    }
+    const updatedProduct = {
+      ...product,
+      name: isUndefined(name) ? product.name : name ,
+      price: isUndefined(price) ? product.price : price,
+      description: isUndefined(description) ? product.description : description,
+      updated_at: new Date(),
+    };
+    this.products = this.products.map(product => product.id === id ? updatedProduct : product);
+    return updatedProduct;
   }
 }
