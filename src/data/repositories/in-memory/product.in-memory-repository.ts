@@ -1,10 +1,11 @@
-import { Prisma, Product } from '@prisma/client';
-import { PaginationInput, PrismaProductUpdateInput, ProductRepository } from '@/data/repositories';
+import { PaginationInput, ProductUpdateInput, ProductRepository, ProductCreateInput } from '@/data/repositories';
 import { NotFoundError } from '@/core/errors';
 import { isUndefined } from 'lodash';
+import { CategoryEntity, ProductEntity } from '@/data/entities';
 
 export class ProductInMemoryRepository implements ProductRepository { 
-  public products: Product[] = [];
+  public products: ProductEntity[] = [];
+  public categories: CategoryEntity[] = [];
 
   async findMany({ limit, offset }: PaginationInput) {
     const products = this.products.slice(offset, offset + limit);
@@ -28,21 +29,21 @@ export class ProductInMemoryRepository implements ProductRepository {
     return product ?? null;
   }
 
-  async create({ name, price, description }: Prisma.ProductCreateInput) {
-    const product = {
+  async create({ name, price, description, categoryId }: ProductCreateInput) {
+    const product: ProductEntity = {
       id: String(this.products.length + 1),
       name,
       price,
       description: description ?? null,
-      category_id: null,
-      created_at: new Date(),
-      updated_at: new Date(),
+      category: categoryId ? this.categories.find(category => category.id === categoryId) : undefined,
+      createdAt: new Date(),
+      updatedAt: new Date(),
     };
     this.products.push(product);
     return product;
   }
 
-  async update({ id, name, price, description }: PrismaProductUpdateInput) {
+  async update({ id, name, price, description }: ProductUpdateInput) {
     const product = this.products.find(product => product.id === id);
     if (!product) {
       throw new NotFoundError();
@@ -52,7 +53,7 @@ export class ProductInMemoryRepository implements ProductRepository {
       name: isUndefined(name) ? product.name : name ,
       price: isUndefined(price) ? product.price : price,
       description: isUndefined(description) ? product.description : description,
-      updated_at: new Date(),
+      updatedAt: new Date(),
     };
     this.products = this.products.map(product => product.id === id ? updatedProduct : product);
     return updatedProduct;

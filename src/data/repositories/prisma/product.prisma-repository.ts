@@ -44,12 +44,15 @@ export class ProductPrismaRepository implements ProductRepository {
         name,
       }
     });
-    console.log('productByName', product);
+
     return product ? this.mapProductToProductEntity(product) : null;
   }
 
   async create({ name, price, description, categoryId }: ProductCreateInput) {
     const product = await prisma.product.create({
+      include: {
+        category: true,
+      },
       data: {
         name,
         price,
@@ -72,6 +75,9 @@ export class ProductPrismaRepository implements ProductRepository {
     const product = await prisma.product.update({
       where: {
         id,
+      },
+      include: {
+        category: true,
       },
       data: {
         name: isUndefined(name) ? productFound.name : name,
