@@ -4,6 +4,11 @@ import { ProductRepository } from '@/data/repositories/product.repository';
 export class ProductInMemoryRepository implements ProductRepository { 
   public products: Product[] = [];
 
+  async findById(id: string) {
+    const product = this.products.find(product => product.id === id);
+    return product ?? null;
+  }
+
   async findByName(name: string) {
     const product = this.products.find(product => product.name === name);
     return product ?? null;

@@ -4,6 +4,16 @@ import { ProductRepository } from '@/data/repositories/product.repository';
 
 
 export class ProductPrismaRepository implements ProductRepository {
+
+  async findById(id: string) {
+    const product = await prisma.product.findFirst({
+      where: {
+        id,
+      }
+    });
+    return product;
+  }
+
   async findByName(name: string) {
     const product = await prisma.product.findFirst({
       where: {
