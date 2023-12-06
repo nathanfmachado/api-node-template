@@ -4,7 +4,7 @@ import { UpdateCategoryUseCase } from '../use-cases/update-category.use-case';
 
 
 export function makeUpdateCategoryUseCase(inMemory: boolean = false) {
-  const categoryRepository = inMemory ? new CategoryInMemoryRepository : new CategoryPrismaRepository();
+  const categoryRepository = inMemory ? new CategoryInMemoryRepository() : new CategoryPrismaRepository();
   const updateCategoryUseCase = new UpdateCategoryUseCase(categoryRepository);
 
   return updateCategoryUseCase;
