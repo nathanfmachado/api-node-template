@@ -51,4 +51,8 @@ export class ProductInMemoryRepository implements ProductRepository {
     this.products = this.products.map(product => product.id === id ? updatedProduct : product);
     return updatedProduct;
   }
+
+  async delete(id: string) {
+    this.products = this.products.filter(product => product.id !== id);
+  }
 }

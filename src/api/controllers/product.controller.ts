@@ -4,6 +4,7 @@ import { makeGetProductUseCase } from '@/domain/factories/make-get-product-use-c
 import { Request, Response } from 'express';
 import { createProductValidator, validateRequest, uuidValidator, updateProductValidator } from '@/api/validators';
 import { makeUpdateProductUseCase } from '@/domain/factories/make-update-product-use-case';
+import { makeDeleteProductUseCase } from '@/domain/factories/make-delete-product-use-case';
 
 
 export class ProductController {
@@ -39,6 +40,17 @@ export class ProductController {
       const data = validateRequest(request.body, updateProductValidator);
       const product = await updateProductUseCase.exec({ ...data, id });
       return response.status(200).send(product);
+    } catch (error) {
+      handleError(error, response);
+    }
+  }
+
+  async delete(request: Request, response: Response) {
+    const deleteProductUseCase = makeDeleteProductUseCase();
+    try {
+      const { id } = validateRequest(request.params, uuidValidator);
+      await deleteProductUseCase.exec(id);
+      return response.status(200).send();
     } catch (error) {
       handleError(error, response);
     }
