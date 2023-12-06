@@ -4,7 +4,7 @@ import { ListCategoriesUseCase } from '../use-cases/list-categories.use-case';
 
 
 export function makeListCategoriesUseCase(inMemory: boolean = false) {
-  const categoryRepository = inMemory ? new CategoryInMemoryRepository : new CategoryPrismaRepository();
+  const categoryRepository = inMemory ? new CategoryInMemoryRepository() : new CategoryPrismaRepository();
   const listCategoriesUseCase = new ListCategoriesUseCase(categoryRepository);
 
   return listCategoriesUseCase;

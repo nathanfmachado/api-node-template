@@ -1,11 +1,12 @@
-import { PaginationInput, ProductUpdateInput, ProductRepository, ProductCreateInput } from '@/data/repositories';
+import { PaginationInput, ProductUpdateInput, ProductRepository, ProductCreateInput, CategoryRepository } from '@/data/repositories';
 import { NotFoundError } from '@/core/errors';
 import { isUndefined } from 'lodash';
-import { CategoryEntity, ProductEntity } from '@/data/entities';
+import { ProductEntity } from '@/data/entities';
 
 export class ProductInMemoryRepository implements ProductRepository { 
   public products: ProductEntity[] = [];
-  public categories: CategoryEntity[] = [];
+
+  constructor(private categoryRepository: CategoryRepository) {}
 
   async findMany({ limit, offset }: PaginationInput) {
     const products = this.products.slice(offset, offset + limit);
@@ -30,12 +31,13 @@ export class ProductInMemoryRepository implements ProductRepository {
   }
 
   async create({ name, price, description, categoryId }: ProductCreateInput) {
+    const category = categoryId ? await this.categoryRepository.findById(categoryId) : null;
     const product: ProductEntity = {
       id: String(this.products.length + 1),
       name,
       price,
       description: description ?? null,
-      category: categoryId ? this.categories.find(category => category.id === categoryId) : undefined,
+      category: category ?? undefined,
       createdAt: new Date(),
       updatedAt: new Date(),
     };
