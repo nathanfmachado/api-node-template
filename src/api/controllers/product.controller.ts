@@ -1,11 +1,7 @@
 import { handleError } from '@/core/errors';
-import { makeCreateProductUseCase } from '@/domain/factories/make-create-product-use-case';
-import { makeGetProductUseCase } from '@/domain/factories/make-get-product-use-case';
 import { Request, Response } from 'express';
 import { createProductValidator, validateRequest, uuidValidator, updateProductValidator, paginationValidator } from '@/api/validators';
-import { makeUpdateProductUseCase } from '@/domain/factories/make-update-product-use-case';
-import { makeDeleteProductUseCase } from '@/domain/factories/make-delete-product-use-case';
-import { makeListProductsUseCase } from '@/domain/factories/make-list-products-use-case';
+import { makeCreateProductUseCase, makeDeleteProductUseCase, makeGetProductUseCase, makeListProductsUseCase, makeUpdateProductUseCase } from '@/domain/factories';
 
 
 export class ProductController {
