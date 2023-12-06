@@ -1,6 +1,7 @@
 import { Request, Response, Router } from 'express';
 import { ProductController } from './controllers/product.controller';
 import { CategoryController } from './controllers/category.controller';
+import { PaymentController } from './controllers/payment.controller';
 
 
 export const route = Router();
@@ -24,3 +25,7 @@ route.get('/categories/:id', categoryController.getById);
 route.put('/categories/:id', categoryController.update);
 route.delete('/categories/:id', categoryController.delete);
 route.get('/categories', categoryController.list);
+
+// Payment parts routes
+const paymentController = new PaymentController();
+route.get('/payment-parts', paymentController.calculatePaymentParts);
