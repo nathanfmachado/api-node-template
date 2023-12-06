@@ -15,6 +15,18 @@ export class ProductPrismaRepository implements ProductRepository {
     return product;
   }
 
+  async findByIdWithCategory(id: string) {
+    const product = await prisma.product.findFirst({
+      where: {
+        id,
+      },
+      include: {
+        category: true,
+      }
+    });
+    return product;
+  }
+
   async findByName(name: string) {
     const product = await prisma.product.findFirst({
       where: {

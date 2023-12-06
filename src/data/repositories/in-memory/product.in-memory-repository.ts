@@ -11,6 +11,12 @@ export class ProductInMemoryRepository implements ProductRepository {
     return product ?? null;
   }
 
+  async findByIdWithCategory(id: string) {
+    const product = this.products.find(product => product.id === id);
+    // TODO: include category
+    return product ?? null;
+  }
+
   async findByName(name: string) {
     const product = this.products.find(product => product.name === name);
     return product ?? null;

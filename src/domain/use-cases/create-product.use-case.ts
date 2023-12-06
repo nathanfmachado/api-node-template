@@ -7,7 +7,7 @@ import { AlreadyExistsError } from '@/core/errors';
 export class CreateProductUseCase implements UseCase<CreateProductInputModel, ProductModel> {
   constructor(private productRepository: ProductRepository) {}
 
-  async exec({ name, price, description }: CreateProductInputModel): Promise<ProductModel> {
+  async exec({ name, price, description, categoryId }: CreateProductInputModel): Promise<ProductModel> {
     const productAlreadyExists = await this.productRepository.findByName(name);
 
     if (productAlreadyExists) {
@@ -18,6 +18,7 @@ export class CreateProductUseCase implements UseCase<CreateProductInputModel, Pr
       name,
       price,
       description,
+      category: categoryId ? { connect: { id: categoryId }} : undefined,
     });
     
     return {

@@ -13,8 +13,8 @@ export class ProductController {
     const createProductUseCase = makeCreateProductUseCase();
 
     try {
-      const { name, price, description } = validateRequest(request.body, createProductValidator);
-      const product = await createProductUseCase.exec({ name, price, description });
+      const data = validateRequest(request.body, createProductValidator);
+      const product = await createProductUseCase.exec(data);
       return response.status(201).send(product);
     } catch (error) {
       handleError(error, response);

@@ -8,7 +8,7 @@ export class GetProductUseCase implements UseCase<string, ProductModel> {
   constructor(private productRepository: ProductRepository) {}
 
   async exec(id: string): Promise<ProductModel> {
-    const product = await this.productRepository.findById(id);
+    const product = await this.productRepository.findByIdWithCategory(id);
     
     if (!product) {
       throw new NotFoundError();
