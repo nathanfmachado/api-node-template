@@ -1,17 +1,15 @@
-import { InvalidDataError } from '@/core/errors';
 import { z } from 'zod';
 
 
-export function validateCreateProductInput(data: unknown) {
-  const validator = z.object({
-    name: z.string(),
-    price: z.number().positive(),
-    description: z.string().optional(),
-  });
+export const createProductValidator = z.object({
+  name: z.string(),
+  price: z.number().positive(),
+  description: z.string().optional(),
+});
 
-  try {
-    return validator.parse(data);
-  } catch (error) {
-    throw new InvalidDataError();
-  }
-}
+export const updateProductValidator = z.object({
+  id: z.string().uuid(),
+  name: z.string().optional(),
+  price: z.number().positive().optional(),
+  description: z.string().optional(),
+});
