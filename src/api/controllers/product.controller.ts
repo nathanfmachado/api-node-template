@@ -2,13 +2,26 @@ import { handleError } from '@/core/errors';
 import { makeCreateProductUseCase } from '@/domain/factories/make-create-product-use-case';
 import { makeGetProductUseCase } from '@/domain/factories/make-get-product-use-case';
 import { Request, Response } from 'express';
-import { createProductValidator, validateRequest, uuidValidator, updateProductValidator } from '@/api/validators';
+import { createProductValidator, validateRequest, uuidValidator, updateProductValidator, paginationValidator } from '@/api/validators';
 import { makeUpdateProductUseCase } from '@/domain/factories/make-update-product-use-case';
 import { makeDeleteProductUseCase } from '@/domain/factories/make-delete-product-use-case';
+import { makeListProductsUseCase } from '@/domain/factories/make-list-products-use-case';
 
 
 export class ProductController {
   constructor() {}
+
+  async list(request: Request, response: Response) {
+    const listProductsUseCase = makeListProductsUseCase();
+    
+    try {
+      const queryParams = validateRequest(request.query, paginationValidator);
+      const products = await listProductsUseCase.exec(queryParams);
+      return response.status(200).send(products);
+    } catch (error) {
+      handleError(error, response);
+    }
+  }
 
   async create(request: Request, response: Response) {
     const createProductUseCase = makeCreateProductUseCase();
