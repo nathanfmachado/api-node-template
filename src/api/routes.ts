@@ -1,6 +1,5 @@
 import { Request, Response, Router } from 'express';
 import { ProductController } from './controllers/product.controller';
-import { CreateProductUseCase } from '@/domain/use-cases/create-product.use-case';
 
 
 export const route = Router();
