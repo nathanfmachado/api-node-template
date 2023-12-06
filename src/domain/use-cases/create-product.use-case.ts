@@ -2,6 +2,7 @@ import { UseCase } from '@/domain/use-case';
 import { CreateProductInputModel, ProductModel } from '@/domain/models';
 import { ProductRepository } from '@/data/repositories/product.repository';
 import { AlreadyExistsError } from '@/core/errors';
+import { mapProductEntityToProductModel } from '@/domain/mappers';
 
 
 export class CreateProductUseCase implements UseCase<CreateProductInputModel, ProductModel> {
@@ -18,14 +19,9 @@ export class CreateProductUseCase implements UseCase<CreateProductInputModel, Pr
       name,
       price,
       description,
-      category: categoryId ? { connect: { id: categoryId }} : undefined,
+      categoryId,
     });
-    
-    return {
-      id: product.id,
-      name: product.name,
-      price: product.price,
-      description: product.description,
-    };
+
+    return mapProductEntityToProductModel(product);
   }
 }

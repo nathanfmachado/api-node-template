@@ -2,6 +2,7 @@ import { UseCase } from '@/domain/use-case';
 import { ProductModel } from '@/domain/models';
 import { ProductRepository } from '@/data/repositories/product.repository';
 import { NotFoundError } from '@/core/errors';
+import { mapProductEntityToProductModel } from '@/domain/mappers';
 
 
 export class GetProductUseCase implements UseCase<string, ProductModel> {
@@ -14,11 +15,6 @@ export class GetProductUseCase implements UseCase<string, ProductModel> {
       throw new NotFoundError();
     }
     
-    return {
-      id: product.id,
-      name: product.name,
-      price: product.price,
-      description: product.description,
-    };
+    return mapProductEntityToProductModel(product);
   }
 }

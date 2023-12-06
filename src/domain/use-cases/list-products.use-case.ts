@@ -1,6 +1,7 @@
 import { UseCase } from '@/domain/use-case';
 import { PaginatedModel, PaginationModel, ProductModel } from '@/domain/models';
 import { ProductRepository } from '@/data/repositories/product.repository';
+import { mapProductEntityToProductModel } from '@/domain/mappers';
 
 
 export class ListProductsUseCase implements UseCase<PaginationModel, PaginatedModel<ProductModel>> {
@@ -13,20 +14,7 @@ export class ListProductsUseCase implements UseCase<PaginationModel, PaginatedMo
     return { 
       page,
       limit,
-      items: products.map((product) => this.mapProductToProductModel(product))
-    };
-  }
-
-  private mapProductToProductModel(product: any): ProductModel {
-    return {
-      id: product.id,
-      name: product.name,
-      price: product.price,
-      description: product.description,
-      category: {
-        id: product.category?.id,
-        name: product.category?.name,
-      }
+      items: products.map(mapProductEntityToProductModel),
     };
   }
 }
