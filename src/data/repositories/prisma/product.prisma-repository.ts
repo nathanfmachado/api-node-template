@@ -1,8 +1,8 @@
 import { prisma } from '@/data/prisma';
-import { Prisma } from '@prisma/client';
-import { PaginationInput, PrismaProductUpdateInput, ProductRepository } from '@/data/repositories';
+import { PaginationInput, ProductUpdateInput, ProductRepository, ProductCreateInput } from '@/data/repositories';
 import { NotFoundError } from '@/core/errors';
 import { isUndefined } from 'lodash';
+import { ProductEntity } from '@/data/entities';
 
 export class ProductPrismaRepository implements ProductRepository {
 
@@ -14,7 +14,7 @@ export class ProductPrismaRepository implements ProductRepository {
         category: true,
       }
     });
-    return products;
+    return products.map(this.mapProductToProductEntity);
   }
 
   async findById(id: string) {
@@ -23,7 +23,7 @@ export class ProductPrismaRepository implements ProductRepository {
         id,
       }
     });
-    return product;
+    return product ? this.mapProductToProductEntity(product) : null;
   }
 
   async findByIdWithCategory(id: string) {
@@ -35,7 +35,7 @@ export class ProductPrismaRepository implements ProductRepository {
         category: true,
       }
     });
-    return product;
+    return product ? this.mapProductToProductEntity(product) : null;
   }
 
   async findByName(name: string) {
@@ -44,21 +44,23 @@ export class ProductPrismaRepository implements ProductRepository {
         name,
       }
     });
-    return product;
+    console.log('productByName', product);
+    return product ? this.mapProductToProductEntity(product) : null;
   }
 
-  async create({ name, price, description }: Prisma.ProductCreateInput) {
+  async create({ name, price, description, categoryId }: ProductCreateInput) {
     const product = await prisma.product.create({
       data: {
         name,
         price,
         description,
+        category: categoryId ? { connect: { id: categoryId }} : undefined,
       }
     });
-    return product;
+    return this.mapProductToProductEntity(product);
   }
 
-  async update({ id, name, price, description }: PrismaProductUpdateInput) {
+  async update({ id, name, price, description, categoryId }: ProductUpdateInput) {
     const productFound = await prisma.product.findFirst({
       where: {
         id,
@@ -75,9 +77,10 @@ export class ProductPrismaRepository implements ProductRepository {
         name: isUndefined(name) ? productFound.name : name,
         price: isUndefined(price) ? productFound.price : price,
         description: isUndefined(description) ? productFound.description : description,
+        category: categoryId ? { connect: { id: categoryId }} : undefined,
       }
     });
-    return product;
+    return this.mapProductToProductEntity(product);
   }
 
   async delete(id: string) {
@@ -86,5 +89,18 @@ export class ProductPrismaRepository implements ProductRepository {
         id,
       }
     });
+  }
+
+  private mapProductToProductEntity(product: any): ProductEntity {
+    return {
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      description: product.description,
+      categoryId: product.categoryId,
+      category: product.category,
+      createdAt: product.created_at,
+      updatedAt: product.updated_at,
+    };
   }
 }
