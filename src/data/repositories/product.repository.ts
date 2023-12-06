@@ -1,4 +1,5 @@
 import { Prisma, Product } from '@prisma/client';
+import { PaginationInput } from './repository-models';
 
 export interface PrismaProductUpdateInput {
   id: string;
@@ -6,11 +7,6 @@ export interface PrismaProductUpdateInput {
   price?: number;
   description?: string | null;
   category?: Prisma.CategoryCreateNestedOneWithoutProductsInput | undefined;
-}
-
-export interface PaginationInput {
-  limit: number;
-  offset: number;
 }
 
 export interface ProductRepository {
