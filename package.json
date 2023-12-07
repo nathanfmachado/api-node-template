@@ -4,11 +4,13 @@
   "description": "Node.js application template for API's",
   "main": "index.js",
   "scripts": {
-    "start:dev": "tsx watch src/server.ts",
+    "dev": "tsx watch src/server.ts",
     "start": "node build/server.js",
     "build": "tsup src --out-dir build",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "migrate:generate": "npx prisma migrate dev",
+    "migrate": "npx prisma migrate deploy"
   },
   "repository": {
     "type": "git",

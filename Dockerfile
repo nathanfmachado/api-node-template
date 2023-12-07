@@ -7,7 +7,11 @@ COPY package*.json ./
 RUN npm install
 # Copy all other files to work directory
 COPY . .
-# Expose port 4000
+# Run migrations
+RUN npm run migrate:generate
+# Build the app
+RUN npm run build
+# Expose the port
 EXPOSE 4000
 # Start dev mode
-CMD [ "npm", "run", "start:dev" ]
+CMD [ "npm", "run", "dev" ]
