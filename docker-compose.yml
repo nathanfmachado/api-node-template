@@ -23,12 +23,12 @@ services:
       POSTGRES_PASSWORD: test_pass
       POSTGRES_DB: test_db
   
-  # web:
-  #   build: .
-  #   restart: always
-  #   depends_on:
-  #     - db
-  #   ports:
-  #     - '4000:4000'
-  #   env_file:
-  #     - .env
+  web:
+    build: .
+    restart: always
+    depends_on:
+      - db
+    ports:
+      - '4000:4000'
+    env_file:
+      - .env
