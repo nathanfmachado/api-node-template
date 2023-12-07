@@ -1,14 +1,10 @@
-import { Request, Response, Router } from 'express';
+import { Router } from 'express';
 import { ProductController } from './controllers/product.controller';
 import { CategoryController } from './controllers/category.controller';
 import { PaymentController } from './controllers/payment.controller';
 
 
 export const route = Router();
-
-route.get('/', (req: Request, res: Response) => {
-  res.json({ message: 'Root end-point' });
-});
 
 // Product routes
 const productController = new ProductController();
