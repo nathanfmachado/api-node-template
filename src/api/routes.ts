@@ -28,4 +28,4 @@ route.get('/categories', categoryController.list);
 
 // Payment parts routes
 const paymentController = new PaymentController();
-route.get('/payment-parts', paymentController.calculatePaymentParts);
+route.get('/payment-parts/:id', paymentController.calculatePaymentParts);
