@@ -32,3 +32,13 @@ services:
       - '4000:4000'
     environment:
       DATABASE_URL: "postgres://dev_user:dev_pass@db:5432/dev_db?schema=public"
+
+  migration:
+    build: .
+    command: npm run migrate:generate
+    volumes:
+      - .:/code
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: "postgres://dev_user:dev_pass@db:5432/dev_db?schema=public"
