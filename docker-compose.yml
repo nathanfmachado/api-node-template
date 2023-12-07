@@ -30,5 +30,5 @@ services:
       - db
     ports:
       - '4000:4000'
-    env_file:
-      - .env
+    environment:
+      DATABASE_URL: "postgres://dev_user:dev_pass@db:5432/dev_db?schema=public"
