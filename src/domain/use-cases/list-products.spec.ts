@@ -1,14 +1,17 @@
 import { describe, expect, it, beforeEach } from 'vitest';
 import { ProductInMemoryRepository } from '@/data/repositories/in-memory/product.in-memory-repository';
 import { ListProductsUseCase } from './list-products.use-case';
+import { CategoryInMemoryRepository } from '@/data/repositories/in-memory/category.in-memory-repository';
 
 
 describe('List Products Use Case', () => {
+  let categoryRepository: CategoryInMemoryRepository;
   let productRepository: ProductInMemoryRepository;
   let listProductsUseCase: ListProductsUseCase;
 
   beforeEach(() => {
-    productRepository = new ProductInMemoryRepository();
+    categoryRepository = new CategoryInMemoryRepository();
+    productRepository = new ProductInMemoryRepository(categoryRepository);
     listProductsUseCase = new ListProductsUseCase(productRepository);
   });
 

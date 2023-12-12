@@ -4,6 +4,8 @@ This is a simple REST API of products with categories, emulating a simple e-comm
 - Typescript
 - Express
 - Prisma
+- Docker
+- Swagger
 
 ## Prerequisites - Before running this project
 
@@ -73,5 +75,4 @@ $ npm test
 
 ## API documentation
 
-- This app was documented with Swagger. You can see the documentation [here](http://localhost:4000/docs)
-
+- This app was documented with Swagger. While running this app, you can see the documentation at [/docs](http://localhost:4000/docs)

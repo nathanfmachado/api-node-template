@@ -2,14 +2,17 @@ import { describe, expect, it, beforeEach } from 'vitest';
 import { AlreadyExistsError } from '@/core/errors';
 import { ProductInMemoryRepository } from '@/data/repositories/in-memory/product.in-memory-repository';
 import { UpdateProductUseCase } from './update-product.use-case';
+import { CategoryInMemoryRepository } from '@/data/repositories/in-memory/category.in-memory-repository';
 
 
 describe('Update Product Use Case', () => {
+  let categoryRepository: CategoryInMemoryRepository;
   let productRepository: ProductInMemoryRepository;
   let updateProductUseCase: UpdateProductUseCase;
 
   beforeEach(() => {
-    productRepository = new ProductInMemoryRepository();
+    categoryRepository = new CategoryInMemoryRepository();
+    productRepository = new ProductInMemoryRepository(categoryRepository);
     updateProductUseCase = new UpdateProductUseCase(productRepository);
   });
 
