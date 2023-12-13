@@ -2,6 +2,9 @@ name: Run unit tests
 
 on: [push]
 
+env:
+  DATABASE_URL: "postgres://dev_user:dev_pass@0.0.0.0:5432/dev_db?schema=public"
+
 jobs: 
   run-unit-tests:
     name: Run unit tests
