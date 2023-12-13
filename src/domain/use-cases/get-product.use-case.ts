@@ -2,11 +2,11 @@ import { UseCase } from '@/domain/use-case';
 import { ProductModel } from '@/domain/models';
 import { ProductRepository } from '@/data/repositories/product.repository';
 import { NotFoundError } from '@/core/errors';
-import { mapProductEntityToProductModel } from '@/domain/mappers';
+import { ProductMapper } from '@/domain/mappers';
 
 
 export class GetProductUseCase implements UseCase<string, ProductModel> {
-  constructor(private productRepository: ProductRepository) {}
+  constructor(private productRepository: ProductRepository, private productMapper: ProductMapper) {}
 
   async exec(id: string): Promise<ProductModel> {
     const product = await this.productRepository.findByIdWithCategory(id);
@@ -15,6 +15,6 @@ export class GetProductUseCase implements UseCase<string, ProductModel> {
       throw new NotFoundError();
     }
     
-    return mapProductEntityToProductModel(product);
+    return this.productMapper.map(product);
   }
 }

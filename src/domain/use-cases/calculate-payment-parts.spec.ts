@@ -1,6 +1,6 @@
 import { describe, expect, it, beforeEach } from 'vitest';
 import { CalculatePaymentPartsUseCase } from './calculate-payment-parts.use-case';
-import { PaymentPartsInputModel } from '../models';
+import { PaymentPartsInputModel } from '@/domain/models';
 import { ProductInMemoryRepository } from '@/data/repositories/in-memory/product.in-memory-repository';
 import { CategoryInMemoryRepository } from '@/data/repositories/in-memory/category.in-memory-repository';
 

@@ -2,11 +2,11 @@ import { UseCase } from '@/domain/use-case';
 import { CreateProductInputModel, ProductModel } from '@/domain/models';
 import { ProductRepository } from '@/data/repositories/product.repository';
 import { AlreadyExistsError } from '@/core/errors';
-import { mapProductEntityToProductModel } from '@/domain/mappers';
+import { ProductMapper } from '@/domain/mappers';
 
 
 export class CreateProductUseCase implements UseCase<CreateProductInputModel, ProductModel> {
-  constructor(private productRepository: ProductRepository) {}
+  constructor(private productRepository: ProductRepository, private productMapper: ProductMapper) {}
 
   async exec({ name, price, description, categoryId }: CreateProductInputModel): Promise<ProductModel> {
     const productAlreadyExists = await this.productRepository.findByName(name);
@@ -22,6 +22,6 @@ export class CreateProductUseCase implements UseCase<CreateProductInputModel, Pr
       categoryId,
     });
 
-    return mapProductEntityToProductModel(product);
+    return this.productMapper.map(product);
   }
 }

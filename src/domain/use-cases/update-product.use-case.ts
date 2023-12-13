@@ -2,11 +2,11 @@ import { UseCase } from '@/domain/use-case';
 import { ProductModel, UpdateProductInputModel } from '@/domain/models';
 import { ProductRepository } from '@/data/repositories/product.repository';
 import { AlreadyExistsError } from '@/core/errors';
-import { mapProductEntityToProductModel } from '@/domain/mappers';
+import { ProductMapper } from '@/domain/mappers';
 
 
 export class UpdateProductUseCase implements UseCase<UpdateProductInputModel, ProductModel> {
-  constructor(private productRepository: ProductRepository) {}
+  constructor(private productRepository: ProductRepository, private productMapper: ProductMapper) {}
 
   async exec({ id, name, price, description, categoryId }: UpdateProductInputModel): Promise<ProductModel> {
     if (name) {
@@ -24,6 +24,6 @@ export class UpdateProductUseCase implements UseCase<UpdateProductInputModel, Pr
       categoryId,
     });
     
-    return mapProductEntityToProductModel(product);
+    return this.productMapper.map(product);
   }
 }

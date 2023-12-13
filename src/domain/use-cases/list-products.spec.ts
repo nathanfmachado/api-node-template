@@ -2,17 +2,20 @@ import { describe, expect, it, beforeEach } from 'vitest';
 import { ProductInMemoryRepository } from '@/data/repositories/in-memory/product.in-memory-repository';
 import { ListProductsUseCase } from './list-products.use-case';
 import { CategoryInMemoryRepository } from '@/data/repositories/in-memory/category.in-memory-repository';
+import { CategoryMapper, ProductMapper } from '@/domain/mappers';
 
 
 describe('List Products Use Case', () => {
   let categoryRepository: CategoryInMemoryRepository;
   let productRepository: ProductInMemoryRepository;
+  let productMapper: ProductMapper;
   let listProductsUseCase: ListProductsUseCase;
 
   beforeEach(() => {
     categoryRepository = new CategoryInMemoryRepository();
     productRepository = new ProductInMemoryRepository(categoryRepository);
-    listProductsUseCase = new ListProductsUseCase(productRepository);
+    productMapper = new ProductMapper(new CategoryMapper());
+    listProductsUseCase = new ListProductsUseCase(productRepository, productMapper);
   });
 
   it('should list products', async () => {

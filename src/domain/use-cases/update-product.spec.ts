@@ -3,17 +3,20 @@ import { AlreadyExistsError } from '@/core/errors';
 import { ProductInMemoryRepository } from '@/data/repositories/in-memory/product.in-memory-repository';
 import { UpdateProductUseCase } from './update-product.use-case';
 import { CategoryInMemoryRepository } from '@/data/repositories/in-memory/category.in-memory-repository';
+import { CategoryMapper, ProductMapper } from '@/domain/mappers';
 
 
 describe('Update Product Use Case', () => {
   let categoryRepository: CategoryInMemoryRepository;
   let productRepository: ProductInMemoryRepository;
   let updateProductUseCase: UpdateProductUseCase;
+  let productMapper: ProductMapper;
 
   beforeEach(() => {
     categoryRepository = new CategoryInMemoryRepository();
     productRepository = new ProductInMemoryRepository(categoryRepository);
-    updateProductUseCase = new UpdateProductUseCase(productRepository);
+    productMapper = new ProductMapper(new CategoryMapper());
+    updateProductUseCase = new UpdateProductUseCase(productRepository, productMapper);
   });
 
   it('should update a product', async () => {

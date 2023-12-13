@@ -1,7 +1,7 @@
 import { handleError } from '@/core/errors';
 import { Request, Response } from 'express';
-import { calculatePaymentPartsValidator, uuidValidator, validateRequest } from '../validators';
-import { makeCalculatePaymentPartsUseCase } from '@/domain/factories/make-calculate-payment-parts-use-case';
+import { calculatePaymentPartsValidator, uuidValidator, validateRequest } from '@/api/validators';
+import { makeCalculatePaymentPartsUseCase } from '@/domain/factories';
 
 
 export class PaymentController {

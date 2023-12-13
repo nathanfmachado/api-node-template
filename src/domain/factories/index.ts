@@ -8,3 +8,4 @@ export * from './make-delete-product-use-case';
 export * from './make-get-product-use-case';
 export * from './make-list-products-use-case';
 export * from './make-update-product-use-case';
+export * from './make-calculate-payment-parts-use-case';

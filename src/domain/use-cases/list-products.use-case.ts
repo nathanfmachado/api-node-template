@@ -1,11 +1,11 @@
 import { UseCase } from '@/domain/use-case';
 import { PaginatedModel, PaginationModel, ProductModel } from '@/domain/models';
 import { ProductRepository } from '@/data/repositories/product.repository';
-import { mapProductEntityToProductModel } from '@/domain/mappers';
+import { ProductMapper } from '@/domain/mappers';
 
 
 export class ListProductsUseCase implements UseCase<PaginationModel, PaginatedModel<ProductModel>> {
-  constructor(private productRepository: ProductRepository) {}
+  constructor(private productRepository: ProductRepository, private productMapper: ProductMapper) {}
 
   async exec({ page, limit }: PaginationModel): Promise<PaginatedModel<ProductModel>> {
     const offset = (page - 1) * limit;
@@ -14,7 +14,7 @@ export class ListProductsUseCase implements UseCase<PaginationModel, PaginatedMo
     return { 
       page,
       limit,
-      items: products.map(mapProductEntityToProductModel),
+      items: products.map(this.productMapper.map),
     };
   }
 }

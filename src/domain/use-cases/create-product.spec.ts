@@ -1,6 +1,6 @@
 import { describe, expect, it, beforeEach } from 'vitest';
 import { CreateProductUseCase } from './create-product.use-case';
-import { makeCreateProductUseCase } from '../factories/make-create-product-use-case';
+import { makeCreateProductUseCase } from '@/domain/factories';
 import { AlreadyExistsError } from '@/core/errors';
 
 

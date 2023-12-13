@@ -2,15 +2,18 @@ import { describe, expect, it, beforeEach } from 'vitest';
 import { CategoryRepository } from '@/data/repositories';
 import { CategoryInMemoryRepository } from '@/data/repositories/in-memory/category.in-memory-repository';
 import { UpdateCategoryUseCase } from './update-category.use-case';
+import { CategoryMapper } from '@/domain/mappers';
 
 
 describe('Update Category Use Case', () => {
   let categoryRepository: CategoryRepository;
+  let categoryMapper: CategoryMapper;
   let updateCategoryUseCase: UpdateCategoryUseCase;
 
   beforeEach(() => {
     categoryRepository = new CategoryInMemoryRepository();
-    updateCategoryUseCase = new UpdateCategoryUseCase(categoryRepository);
+    categoryMapper = new CategoryMapper();
+    updateCategoryUseCase = new UpdateCategoryUseCase(categoryRepository, categoryMapper);
   });
 
   it('should update a category', async () => {

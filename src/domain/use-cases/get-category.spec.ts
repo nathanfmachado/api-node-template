@@ -2,15 +2,18 @@ import { describe, expect, it, beforeEach } from 'vitest';
 import { GetCategoryUseCase } from './get-category.use-case';
 import { CategoryInMemoryRepository } from '@/data/repositories/in-memory/category.in-memory-repository';
 import { NotFoundError } from '@/core/errors';
+import { CategoryMapper } from '@/domain/mappers';
 
 
 describe('Get Category Use Case', () => {
   let categoryRepository: CategoryInMemoryRepository;
+  let categoryMapper: CategoryMapper;
   let getCategoryUseCase: GetCategoryUseCase;
 
   beforeEach(() => {
     categoryRepository = new CategoryInMemoryRepository();
-    getCategoryUseCase = new GetCategoryUseCase(categoryRepository);
+    categoryMapper = new CategoryMapper();
+    getCategoryUseCase = new GetCategoryUseCase(categoryRepository, categoryMapper);
   });
 
   it('should get a existing category by id', async () => {
